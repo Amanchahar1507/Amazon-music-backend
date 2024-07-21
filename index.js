@@ -19,11 +19,15 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser())
 //app.use(cors());
-app.use(cors({
-    origin: process.env.ORIGIN,
+const corsOptions = {
+    origin: process.env.ORIGIN || 'http://localhost:3000',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
-  }));
+};
+
+app.use(cors(corsOptions));
+
+app.options('*', cors(corsOptions));
 
 //ROUTES
 app.use("/api/user", userRouter)
